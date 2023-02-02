@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Price Slider Stylesheets -->
+    <link rel="stylesheet" href="/media/css/nouislider.css">
+    <!-- Google fonts - Playfair Display-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700">
+    <!-- Google fonts - Poppins-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,400i,700">
+    <!-- swiper-->
+    <link rel="stylesheet" href="/media/css/swiper.min.css">
+    <!-- Magnigic Popup-->
+    <link rel="stylesheet" href="/media/css/magnific-popup.css">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="/media/css/default.css" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <!-- <link rel="stylesheet" href="/media/css/custom.css"> -->
+    <script src="/media/js/main.js"> </script>
+
+</head>
+
+<body style="padding-top: 72px;">
+
+    <div class="container-fluid px-3">
+        <div class="row min-vh-100">
+          <div class="col-md-8 col-lg-6 col-xl-5 d-flex align-items-center">
+            <div class="w-100 py-5 px-md-5 px-xl-6 position-relative">
+             
+              <div class="form-validate">
+                <div class="form-group">
+                  <label class="form-label" for="loginUsername" style="font-size: 25px;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Create Account </label>
+               
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="email"> Username</label>
+                  <input class="form-control" name="loginUsername" id="name" type="email" placeholder="name@address.com" autocomplete="off" required data-msg="Please enter your email">
+                </div>
+                <div class="form-group mb-4">
+                    <div class="row">
+                      <div class="col">
+                        <label class="form-label" for="loginPassword"> Email</label>
+                      </div>
+                    </div>
+                    <input class="form-control" name="loginPassword" id="email" placeholder="Enter User Name" type="text" required data-msg="Please enter your password">
+                  </div>
+                <div class="form-group mb-4">
+                  <div class="row">
+                    <div class="col">
+                      <label class="form-label" for="loginPassword"> Password</label>
+                    </div>
+                  </div>
+                  <input class="form-control" name="loginPassword" id="password" placeholder="Password" type="password" required data-msg="Please enter your password">
+                </div>
+               
+                <!-- Submit-->
+                <button class="btn btn-lg btn-block btn-primary"id="signup">Sign Up</button>
+               
+                <p class="text-center">
+                    <small class="text-muted text-center">
+                       Already Account ? 
+                        
+                    </small>
+                    <a  id="click">
+                        Login In
+                    </a>
+                </p>
+              </div>
+              <a class="close-absolute mr-md-5 mr-xl-6 pt-5" href="index-2.html"> 
+                <svg class="svg-icon w-3rem h-3rem">
+                  <use xlink:href="#close-1"> </use>
+                </svg></a>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-6 col-xl-7 d-none d-md-block">
+            <!-- Image-->
+            <div class="bg-cover h-100 mr-n3" style="background-image: url('https://img.freepik.com/free-vector/facebook-wallpaper-with-icons-flat-design_23-2147614791.jpg?w=740&t=st=1675144412~exp=1675145012~hmac=6f56fa7c3929fee9a0d9598888bcee591559afa12ba858a3236c58a56932077d');"></div>
+          </div>
+        </div>
+      </div>
+    
+      </body>
+
+
+
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-database.js"></script>
+    <script>
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyA2rPzyKAwGPhtkSiCOewaIP79axf4fC38",
+            authDomain: "enstro-68247.firebaseapp.com",
+            databaseURL: "https://enstro-68247-default-rtdb.firebaseio.com",
+            projectId: "enstro-68247",
+            storageBucket: "enstro-68247.appspot.com",
+            messagingSenderId: "904641560773",
+            appId: "1:904641560773:web:f0d6dceb3bba315e5630ac",
+            measurementId: "G-KYQ2X9XP8P"
+        };
+
+        firebase.initializeApp(firebaseConfig)
+
+
+
+    </script>
+    <script>
+
+var click1 = document.getElementById("click")
+    click1.addEventListener("click",()=>{
+        console.log("sjhsjh")
+      window.location.replace("http://127.0.0.1:8000/")
+    })
+
+        var email = document.getElementById("email")
+        var password = document.getElementById("password")
+        var signup = document.getElementById("signup")
+        var name1 = document.getElementById("name")
+
+        signup.addEventListener("click", () => {
+            firebase.auth().createUserWithEmailAndPassword(email.value, password.value)
+                .then(async (userdata) => {
+                    console.log(userdata.user.uid)
+
+                    var obj = {
+                        username: name1.value,
+                        email: email.value,
+                        password: password.value,
+
+                        USER_UID: userdata.user.uid,
+                        User_Login_System: "",
+                        "Access_Token": "EAAJMabd54c4BAIuNdmMCjfP4gGHxr3xvHR1BqMaPbE6qHbOOBjFx9SS0JWCUVLZABZBoZAVPGOdojQuXIrgvOoW7db1prlhC6DVTRLgC8p26LH1pPidAQFywS1tOWF1ZCHyXTrwkAyP2Rwol5fBH7foko0IKZCP23BSDVXwZAm5fXF0x3JvZBS8s1WBkq1XcdpUlvTZBsZAU7cVcLVtWNak829CCqPLxd0hDprycmNN0XhYGw5ZCqUj3PXISSgFAAPc0QZD"
+                    }
+
+                    await firebase.database()
+                        .ref("Users").child(userdata.user.uid.toString()).set(obj)
+                    window.location.replace("http://localhost:8000/homepage.html/")
+                    alert("user reg")
+
+                })
+                .catch((err) => {
+                    // console.log(err)
+                    alert(err)
+                })
+        })
+
+
+    </script>
+</body>
+
+</html>

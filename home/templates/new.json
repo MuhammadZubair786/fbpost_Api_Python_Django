@@ -1,0 +1,66 @@
+{
+    "user": {
+        "uid": "590KCUoafJMD3HaE0qmQuHL3rSh2",
+        "displayName": "Zeapp Royale",
+        "photoURL": "https://graph.facebook.com/142647295321117/picture",
+        "email": "sasiff99981@gmail.com",
+        "emailVerified": false,
+        "phoneNumber": null,
+        "isAnonymous": false,
+        "tenantId": null,
+        "providerData": [
+            {
+                "uid": "142647295321117",
+                "displayName": "Zeapp Royale",
+                "photoURL": "https://graph.facebook.com/142647295321117/picture",
+                "email": "sasiff99981@gmail.com",
+                "phoneNumber": null,
+                "providerId": "facebook.com"
+            }
+        ],
+        "apiKey": "AIzaSyA2rPzyKAwGPhtkSiCOewaIP79axf4fC38",
+        "appName": "[DEFAULT]",
+        "authDomain": "enstro-68247.firebaseapp.com",
+        "stsTokenManager": {
+            "apiKey": "AIzaSyA2rPzyKAwGPhtkSiCOewaIP79axf4fC38",
+            "refreshToken": "APJWN8d6yvVjMAqAsR9XN6klQzhfR1xsk4jkQ4EaIxEeh0ECGWrkKqMCgzIT1BuWqHXf9OcgmfR2yb2WShbWXdDhCrD2rBwS3reRjMlHZ7RSdN_UZbrFQXDmRJu1cZPajKzVJ-r955T7XjIT59bl8JgdmiZZpW9J4lK4msuikxa-_lIv4_pDa7CXc00ki6PE7sU3Z-NOwjdGyZ3jb22Y1CEK_bN39aaFl4L0k-WOp-4LBecDy6UoYvUhowTHlWdVTmdsxmdDcwVwvu7Y94C3eooYpLDthCBm7JqMKOC6sIyZK0iHMJ84as6AvJMK82s9ugbjAQJiOWnM69FP7qdSCzvO1YtNzPX_Aw",
+            "accessToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImQwNWI0MDljNmYyMmM0MDNlMWY5MWY5ODY3YWM0OTJhOTA2MTk1NTgiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiWmVhcHAgUm95YWxlIiwicGljdHVyZSI6Imh0dHBzOi8vZ3JhcGguZmFjZWJvb2suY29tLzE0MjY0NzI5NTMyMTExNy9waWN0dXJlIiwiaXNzIjoiaHR0cHM6Ly9zZWN1cmV0b2tlbi5nb29nbGUuY29tL2Vuc3Ryby02ODI0NyIsImF1ZCI6ImVuc3Ryby02ODI0NyIsImF1dGhfdGltZSI6MTY3NDgwMjIyNSwidXNlcl9pZCI6IjU5MEtDVW9hZkpNRDNIYUUwcW1RdUhMM3JTaDIiLCJzdWIiOiI1OTBLQ1VvYWZKTUQzSGFFMHFtUXVITDNyU2gyIiwiaWF0IjoxNjc0ODAyMjI1LCJleHAiOjE2NzQ4MDU4MjUsImVtYWlsIjoic2FzaWZmOTk5ODFAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImZhY2Vib29rLmNvbSI6WyIxNDI2NDcyOTUzMjExMTciXSwiZW1haWwiOlsic2FzaWZmOTk5ODFAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoiZmFjZWJvb2suY29tIn19.Pf3RVhIVW0OzDt8g-nK800v0t3sFq315xXLpAeBKi2kLp11Pdt3Eyt21ZSfHF8XkhRbjh1Y90Ejvne-N7wJmj9JAG-k_ZzcZTD1KJaoz2V2i6AHn_sev3S1Bkhle4GnUgcMDSGDvJwXrcVePLde6YlOMk5ydnJiP5ClMbmc-SIup8K7_LY8NXiMXyi02PWWT_YgDBqui5L3vHJ7fWn6WG8UoXEjh5PM-bPIqNvNdZOut30EhIVm8YZ929CaZMH3fVgKIhDgZjdASoHnR5vpjZ0Fa6Sfokr59YVGhRrT73FLRq0aLFKFsUqUBqrS2nVKuyO0vySY5OR5NBz_B5kJKvg",
+            "expirationTime": 1674805824700
+        },
+        "redirectEventId": null,
+        "lastLoginAt": "1674802225546",
+        "createdAt": "1674802225543",
+        "multiFactor": {
+            "enrolledFactors": []
+        }
+    },
+    "credential": {
+        "providerId": "facebook.com",
+        "signInMethod": "facebook.com",
+        "oauthAccessToken": "EAAQnhteixzwBAFw2naholRZCOWAbmoujkrgRFRKp6h4fXZC7b387eZCtDvJP0OADf3ZBMjenB41rcKofutUexjQZAZCDUT7XEPWwmF4Oh9HNVzVgsZBYMgaVprY6gXNyub4Hk7CSDXg3XzREj5ZAMpxBnMfmujQbs5JZCXDajm4GGlARsCr3M3Kji3MVZCbTpL3cnWmNmKkZAhIGGT1fYpIYzN5oHcoC2jzRrG9BoS3IFgV0eudsZAeYVWfW"
+    },
+    "additionalUserInfo": {
+        "providerId": "facebook.com",
+        "isNewUser": true,
+        "profile": {
+            "name": "Zeapp Royale",
+            "last_name": "Royale",
+            "granted_scopes": [
+                "email",
+                "public_profile"
+            ],
+            "id": "142647295321117",
+            "first_name": "Zeapp",
+            "email": "sasiff99981@gmail.com",
+            "picture": {
+                "data": {
+                    "is_silhouette": true,
+                    "width": 100,
+                    "url": "https://scontent-iad3-2.xx.fbcdn.net/v/t1.30497-1/84628273_176159830277856_972693363922829312_n.jpg?stp=c29.0.100.100a_dst-jpg_p100x100&_nc_cat=1&ccb=1-7&_nc_sid=12b3be&_nc_ohc=WAP7apDhwK0AX8l3mcu&_nc_ht=scontent-iad3-2.xx&edm=AP4hL3IEAAAA&oh=00_AfCFII5q9FFxxXBUMCqUKY8sr6ds0q2t4xILrXmJuN7EXQ&oe=63FAEB59",
+                    "height": 100
+                }
+            }
+        }
+    },
+    "operationType": "signIn"
+}

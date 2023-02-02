@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <style>
+        h3 {
+            font-family: 'Courier New', Courier, monospace;
+            color: blue;
+            font-size: 19px;
+        }
+
+        hr {
+            /* width: 100px; */
+            size: 100px;
+            color: rgb(34, 2, 2);
+            /* height: 200px; */
+        }
+
+        .card {
+            /* background-color:3784b8 ; */
+            color: rgb(13, 13, 13);
+            box-shadow: 10px 10px 100px rgb(182, 182, 182);
+        }
+
+        .btn {
+            box-shadow: 10px 10px 100px rgb(182, 182, 182) !important;
+        }
+
+        input[type=checkbox] {
+            transform: scale(2.5);
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#" style="font-size: 35px;">Yishey | Python based system</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <form class="d-flex" role="search">
+                <button class="btn btn-outline-success" onclick="logout()" style="width: 100px;" type="button">Log
+                    Out</button>
+            </form>
+        </nav>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Enter Message</span>
+                    <input type="text" class="form-control" id="message" placeholder="Message...."
+                        aria-label="Message...." aria-describedby="basic-addon1">
+                </div>
+                <!-- <button onclick="abc()">Get Groups</button> -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-lg-4">
+                <div class="input-group mb-3">
+                    <!-- <span class="input-group-text">Enter Message</span> -->
+                    <input type="file" class="form-control" id="filedata" placeholder="Message...."
+                        aria-label="Message...." aria-describedby="basic-addon1">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4" style="margin: 10px;">
+                <button type="button" class="btn btn-success " style="width: 200px;" onclick="newcall()">Post</button>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row" id="data">
+            </div>
+        </div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-storage.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyA2rPzyKAwGPhtkSiCOewaIP79axf4fC38",
+            authDomain: "enstro-68247.firebaseapp.com",
+            databaseURL: "https://enstro-68247-default-rtdb.firebaseio.com",
+            projectId: "enstro-68247",
+            storageBucket: "enstro-68247.appspot.com",
+            messagingSenderId: "904641560773",
+            appId: "1:904641560773:web:f0d6dceb3bba315e5630ac",
+            measurementId: "G-KYQ2X9XP8P"
+        };
+
+        firebase.initializeApp(firebaseConfig)
+
+
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script>
+         // <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js">
+    </script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js"></script>
+    <script>
+        var pr = document.getElementById("data")
+        var img = document.getElementById("filedata")
+        var getfile=""
+        var imgurl = "";
+        var list = []
+        var maindata_list = [];
+
+        img.addEventListener("click", () => {
+            img.onchange = e => {
+                getfile = e.target.files[0]
+                console.log(getfile)
+                
+              
+                //  upload_img()
+
+
+            }
+            console.log("call")
+        })
+
+        const upload_img = () => {
+            var strg = firebase.storage().ref()
+            var uploadTask = firebase.storage().ref().child(`images_smit/${getfile.name}`)
+                .put(getfile)
+            uploadTask.on('state_changed',
+                (sna) => {
+
+                    var progress = (sna.bytesTransferred / sna.totalBytes) * 100;//percenatge
+                    console.log(progress)
+
+                    if (progress == 0) {
+
+                        alert("Upload Process Start\n Plz Wait For Upload Image In Data Base")
+                    }
+
+
+                    if (progress == 100) {
+
+                        alert("Upload Process Finish \n Successfully Upload Image In Data Base")
+                    }
+
+                },
+                (error) => {
+
+                },
+                () => {
+
+                    uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                        imgurl = downloadURL;
+                        console.log('File available at', downloadURL);
+
+
+                    });
+                }
+            );
+
+        }
+
+
+
+
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '585665769600438',
+                cookie: true,
+                xfbml: true,
+                version: 'v15.0'
+            });
+
+
+
+        };
+
+
+        async function abc() {
+
+            var data = localStorage.getItem("User_Login")
+            await firebase.database().ref("Users").child(data).once("value", async (snap) => {
+                console.log(snap.toJSON())
+
+                var requestOptions = {
+                    method: 'GET',
+                    redirect: 'follow'
+                };
+
+                var requestOptions = {
+                    method: 'GET',
+                    redirect: 'follow'
+                };
+
+                fetch(`https://graph.facebook.com/v15.0/me?fields=groups&access_token=${snap.toJSON()["Access_Token"]}`, requestOptions)
+                    .then(response => response.text())
+                    .then((result) => {
+                        console.log(result)
+                        var data = JSON.parse(result)
+                        console.log(data.groups.data)
+                        data.groups.data.map((v, i) => {
+                            maindata_list.push(v)
+                            console.log(v)
+                            // pr.innerHTML += `
+                            // <h3>group Name : ${v.name}</h3>
+                            // <h3>group Id : ${v.id} </h3>
+                            // <hr>
+
+
+
+                            // `
+                            pr.innerHTML += `
+                              <div class="col-lg-3 col-md-4 col-sm-6 col-12 mt-4">
+                              <div class="card" >
+          
+          <div class="card-body">
+          <h5 class="card-title">Group Name : ${v.name}</h5>
+          <p class="card-text">Group Id : ${v.id}</p>
+          <b >
+          <a href="#" class=" btn-primary" style="width:100px" id=${v.id}   >
+             <input type="checkbox"  size="100" data-group-id="${v.id}" data-group-name="${v.name}" />
+             </a>
+             </b>
+          </div>
+          </div>
+          </div>
+                              `
+                        })
+
+                    })
+                    .catch(error => console.log('error', error));
+
+
+            })
+
+
+        }
+
+        // async function checker(e) {
+        //     // console.log(e.id)
+        //     console.log(e.id)
+        //     for (var i = 0; i < maindata_list.length; i++) {
+        //         // console.log(maindata_list[i])
+        //         if (maindata_list[i].id == e.id) {
+        //             console.log(e.parentNode)
+        //             if (e.childNodes[1].checked) {
+        //                 list.push(maindata_list[i])
+        //                 console.log(list)
+        //             }
+        //             else {
+
+        //             for(var i of list){
+        //                 if(i.id==e.id){
+        //                     console.log(e.id)
+        //                     console.log(i.id)
+        //                     delete i
+        //                     console.log(list)
+        //                     // const index = list.indexOf(e.id);
+        //                     // console.log(index)
+
+        //                 // if (index > -1) {
+        //                 //     // list.splice(index, 1);
+        //                 // }
+        //                 // console.log(index)
+
+        //                 }
+        //             }
+
+
+
+
+        //             }
+        //         }
+        //     }
+
+
+
+
+
+        // }
+        async function logout() {
+            console.log("call")
+            var user1 = localStorage.getItem("User_Login")
+            console.log(user1)
+            await firebase.database().ref("Users").child(user1).once("value", (async (snap) => {
+                console.log(snap.toJSON())
+
+                await firebase.database().ref("Users").child(user1).update({
+                    User_Login_System: parseInt(snap.toJSON().User_Login_System) - 1
+                })
+                window.location.replace("http://127.0.0.1:8000/")
+            }))
+        }
+
+
+
+        async function newcall() {
+            var message = document.getElementById("message")
+            console.log(imgurl.length)
+
+            var data = localStorage.getItem("User_Login")
+
+
+            getfile == "" ?
+            //img condition 
+
+
+            
+
+                await firebase.database().ref("Users").child(data).once("value", async (snap) => {
+                    console.log(snap.toJSON())
+
+                    var requestOptions = {
+                        method: 'POST',
+                        redirect: 'follow'
+                    };
+
+                    var list_check = []
+
+
+                    await $.each($('input[type="checkbox"]'), function (index, value) {
+                        // console.log( index + ": " + value );
+                        if ($(this).is(":checked")) {
+                            var groupid = $(this).data("group-id");
+                            var groupname = $(this).data("group-name");
+
+                            console.log(groupid)
+                            list_check.push({
+                                name: groupname,
+                                id: groupid
+                            })
+
+
+                        }
+
+
+                    });
+                    console.log(list_check)
+
+                    list_check.length == 0 ?
+                    //if not selected any list
+                    fetch(`https://graph.facebook.com/v15.0/me?fields=groups&access_token=${snap.toJSON()["Access_Token"]}`, requestOptions)
+                            .then(response => response.text())
+                            .then(async (result) => {
+                                var data = JSON.parse(result)
+                                var maindata = data.groups.data
+                                maindata.map(async (v, i) => {
+                                    console.log(v.id)
+                                    var date = new Date();
+                                    var day = date.getDate()
+                                    var month = date.getMonth() + 1
+                                    var year = date.getFullYear()
+                                    var h = date.getHours()
+                                    var min = date.getMinutes()
+                                    var sec = date.getSeconds()
+                                    console.log(day + "-" + month + "-" + year + "-" + h + ":" + min + ":" + sec)
+                                    await fetch(`https://graph.facebook.com/v15.0/${v.id}/feed?fields=message&message=${message.value}&access_token=${snap.toJSON()["Access_Token"]}`, requestOptions)
+                                        .then(response => response.text())
+                                        .then(async (result) => {
+                                            // console.log(result)
+                                            console.log(v.id)
+                                            var data1 = JSON.parse(result)
+                                            var date = new Date();
+                                            var day = date.getDay()
+                                            var month = date.getMonth()
+                                            var year = date.getFullYear()
+                                            var user1 = localStorage.getItem("User_Login")
+                                            console.log(user1)
+                                            // console.log(data1.error)
+                                            if (data1.error == undefined) {
+                                                console.log("Upload Post")
+
+                                                await firebase.database().ref("Users").child(user1.toString()).child(`${day}-${month}-${year}-${h}:${min}:${sec}`)
+                                                    .child(v.id).update({
+                                                        Group_Id: v.id,
+                                                        Group_Name: v.name,
+                                                        POST_STATUS: "Upload Post ",
+                                                        status: "Upload Post ",
+
+
+                                                    })
+
+                                            }
+                                            else {
+                                                console.log("Not Succeffully Post ")
+                                                await firebase.database().ref("Users").child(user1.toString()).child(`${day}-${month}-${year}-${h}:${min}:${sec}`)
+                                                    .child(v.id).update({
+                                                        Group_Id: v.id,
+                                                        Group_Name: v.name,
+                                                        POST_STATUS: "NOT Upload Post ",
+                                                        status: "Not Published "
+                                                    })
+                                            }
+                                        })
+                                        .catch(error => console.log('error', error))
+
+                                })
+                            })
+                                :
+                                //if selecetd list
+                                list_check.map(async (v, i) => {
+                                    console.log(v.id)
+                                    var date = new Date();
+                                    var day = date.getDate()
+                                    var month = date.getMonth() + 1
+                                    var year = date.getFullYear()
+                                    var h = date.getHours()
+                                    var min = date.getMinutes()
+                                    var sec = date.getSeconds()
+                                    console.log(day + "-" + month + "-" + year + "-" + h + ":" + min + ":" + sec)
+                                    await fetch(`https://graph.facebook.com/v15.0/${v.id}/feed?fields=message&message=${message.value}&access_token=${snap.toJSON()["Access_Token"]}`, requestOptions)
+                                        .then(response => response.text())
+                                        .then(async (result) => {
+                                            // console.log(result)
+                                            console.log(v.id)
+                                            var data1 = JSON.parse(result)
+                                            var date = new Date();
+                                            var day = date.getDay()
+                                            var month = date.getMonth()
+                                            var year = date.getFullYear()
+                                            var user1 = localStorage.getItem("User_Login")
+                                            console.log(user1)
+                                            // console.log(data1.error)
+                                            if (data1.error == undefined) {
+                                                console.log("Upload Post")
+
+                                                await firebase.database().ref("Users").child(user1.toString()).child(`${day}-${month}-${year}-${h}:${min}:${sec}`)
+                                                    .child(v.id).update({
+                                                        Group_Id: v.id,
+                                                        Group_Name: v.name,
+                                                        POST_STATUS: "Upload Post ",
+                                                        status: "Upload Post ",
+
+
+                                                    })
+
+                                            }
+                                            else {
+                                                console.log("Not Succeffully Post ")
+                                                await firebase.database().ref("Users").child(user1.toString()).child(`${day}-${month}-${year}-${h}:${min}:${sec}`)
+                                                    .child(v.id).update({
+                                                        Group_Id: v.id,
+                                                        Group_Name: v.name,
+                                                        POST_STATUS: "NOT Upload Post ",
+                                                        status: "Not Published "
+                                                    })
+                                            }
+                                        })
+                                        .catch(error => console.log('error', error))
+
+                                })
+                            
+                          })
+                // console.log("Image is not set ")
+                :
+                console.log("Image is  set ")
+
+                //if image set
+                await firebase.database().ref("Users").child(data).once("value", async (snap) => {
+                    console.log(snap.toJSON())
+
+                   
+
+
+                    var list_check = []
+
+
+                    await $.each($('input[type="checkbox"]'), function (index, value) {
+                        // console.log( index + ": " + value );
+                        if ($(this).is(":checked")) {
+                            var groupid = $(this).data("group-id");
+                            var groupname = $(this).data("group-name");
+
+                            console.log(groupid)
+                            list_check.push({
+                                name: groupname,
+                                id: groupid
+                            })
+
+
+                        }
+
+
+                    });
+                    console.log(list_check)
+
+                    var formdata = new FormData();
+                        formdata.append("source ", getfile);
+
+                        var requestOptions = {
+                            method: 'POST',
+                            redirect: 'follow',
+                            body: formdata
+                        };
+
+
+                    list_check.length == 0 ?
+                    //if not selected
+
+                    
+                    fetch(`https://graph.facebook.com/v15.0/me?fields=groups&access_token=${snap.toJSON()["Access_Token"]}`, requestOptions)
+                            .then(response => response.text())
+                            .then(async (result) => {
+                                var data = JSON.parse(result)
+                                var maindata = data.groups.data
+                                maindata.map(async (v, i) => {
+                                    console.log(v.id)
+                                    var date = new Date();
+                                    var day = date.getDate()
+                                    var month = date.getMonth() + 1
+                                    var year = date.getFullYear()
+                                    var h = date.getHours()
+                                    var min = date.getMinutes()
+                                    var sec = date.getSeconds()
+                                    console.log(day + "-" + month + "-" + year + "-" + h + ":" + min + ":" + sec)
+                                    await fetch(`https://graph.facebook.com/v15.0/${v.id}/photos?message=${message.value}&access_token=${snap.toJSON()["Access_Token"]}`, requestOptions)
+                                        .then(response => response.text())
+                                        .then(async (result) => {
+                                            // console.log(result)
+                                            console.log(v.id)
+                                            var data1 = JSON.parse(result)
+                                            var date = new Date();
+                                            var day = date.getDay()
+                                            var month = date.getMonth()
+                                            var year = date.getFullYear()
+                                            var user1 = localStorage.getItem("User_Login")
+                                            console.log(user1)
+                                            // console.log(data1.error)
+                                            if (data1.error == undefined) {
+                                                console.log("Upload Post")
+
+                                                await firebase.database().ref("Users").child(user1.toString()).child(`${day}-${month}-${year}-${h}:${min}:${sec}`)
+                                                    .child(v.id).update({
+                                                        Group_Id: v.id,
+                                                        Group_Name: v.name,
+                                                        POST_STATUS: "Upload Post ",
+                                                        status: "Upload Post ",
+
+
+                                                    })
+
+                                            }
+                                            else {
+                                                console.log("Not Succeffully Post ")
+                                                await firebase.database().ref("Users").child(user1.toString()).child(`${day}-${month}-${year}-${h}:${min}:${sec}`)
+                                                    .child(v.id).update({
+                                                        Group_Id: v.id,
+                                                        Group_Name: v.name,
+                                                        POST_STATUS: "NOT Upload Post ",
+                                                        status: "Not Published "
+                                                    })
+                                            }
+                                        })
+                                        .catch(error => console.log('error', error))
+
+                                })
+                            })
+                                :
+                                // if selex list
+                                list_check.map(async (v, i) => {
+                                    console.log(v.id)
+                                    var date = new Date();
+                                    var day = date.getDate()
+                                    var month = date.getMonth() + 1
+                                    var year = date.getFullYear()
+                                    var h = date.getHours()
+                                    var min = date.getMinutes()
+                                    var sec = date.getSeconds()
+                                    console.log(day + "-" + month + "-" + year + "-" + h + ":" + min + ":" + sec)
+                                    await fetch(`https://graph.facebook.com/v15.0/${v.id}/photos?message=${message.value}&access_token=${snap.toJSON()["Access_Token"]}`, requestOptions)
+                                        .then(response => response.text())
+                                        .then(async (result) => {
+                                            // console.log(result)
+                                            console.log(v.id)
+                                            var data1 = JSON.parse(result)
+                                            var date = new Date();
+                                            var day = date.getDay()
+                                            var month = date.getMonth()
+                                            var year = date.getFullYear()
+                                            var user1 = localStorage.getItem("User_Login")
+                                            console.log(user1)
+                                            // console.log(data1.error)
+                                            if (data1.error == undefined) {
+                                                console.log("Upload Post")
+
+                                                await firebase.database().ref("Users").child(user1.toString()).child(`${day}-${month}-${year}-${h}:${min}:${sec}`)
+                                                    .child(v.id).update({
+                                                        Group_Id: v.id,
+                                                        Group_Name: v.name,
+                                                        POST_STATUS: "Upload Post ",
+                                                        status: "Upload Post ",
+
+
+                                                    })
+
+                                            }
+                                            else {
+                                                console.log("Not Succeffully Post ")
+                                                await firebase.database().ref("Users").child(user1.toString()).child(`${day}-${month}-${year}-${h}:${min}:${sec}`)
+                                                    .child(v.id).update({
+                                                        Group_Id: v.id,
+                                                        Group_Name: v.name,
+                                                        POST_STATUS: "NOT Upload Post ",
+                                                        status: "Not Published "
+                                                    })
+                                            }
+                                        })
+                                        .catch(error => console.log('error', error))
+
+                                })
+                            
+                                
+
+
+
+
+
+
+
+
+                })
+
+
+
+
+        }
+        async function abc1() {
+            var message = document.getElementById("message")
+            console.log(imgurl.length)
+
+            var data = localStorage.getItem("User_Login")
+
+            $.each($('input[type="checkbox"]'), function (index, value) {
+                // console.log( index + ": " + value );
+                if ($(this).is(":checked")) {
+                    console.log($(this).data("group-name"));
+
+
+                }
+
+
+            });
+
+
+            list.length == 0 ?
+
+
+                imgurl.length == 0 ?
+
+
+
+                    await firebase.database().ref("Users").child(data).once("value", async (snap) => {
+                        console.log(snap.toJSON())
+
+                        var requestOptions = {
+                            method: 'POST',
+                            redirect: 'follow'
+                        };
+
+
+                        fetch(`https://graph.facebook.com/v15.0/me?fields=groups&access_token=${snap.toJSON()["Access_Token"]}`, requestOptions)
+                            .then(response => response.text())
+                            .then(async (result) => {
+                                var data = JSON.parse(result)
+                                var maindata = data.groups.data
+                                maindata.map(async (v, i) => {
+                                    console.log(v.id)
+                                    var date = new Date();
+                                    var day = date.getDate()
+                                    var month = date.getMonth() + 1
+                                    var year = date.getFullYear()
+                                    var h = date.getHours()
+                                    var min = date.getMinutes()
+                                    var sec = date.getSeconds()
+                                    console.log(day + "-" + month + "-" + year + "-" + h + ":" + min + ":" + sec)
+                                    await fetch(`https://graph.facebook.com/v15.0/${v.id}/feed?fields=message&message=${message.value}&access_token=${snap.toJSON()["Access_Token"]}`, requestOptions)
+                                        .then(response => response.text())
+                                        .then(async (result) => {
+                                            // console.log(result)
+                                            console.log(v.id)
+                                            var data1 = JSON.parse(result)
+                                            var date = new Date();
+                                            var day = date.getDay()
+                                            var month = date.getMonth()
+                                            var year = date.getFullYear()
+                                            var user1 = localStorage.getItem("User_Login")
+                                            console.log(user1)
+                                            // console.log(data1.error)
+                                            if (data1.error == undefined) {
+                                                console.log("Upload Post")
+
+                                                await firebase.database().ref("Users").child(user1.toString()).child(`${day}-${month}-${year}-${h}:${min}:${sec}`)
+                                                    .child(v.id).update({
+                                                        Group_Id: v.id,
+                                                        Group_Name: v.name,
+                                                        POST_STATUS: "Upload Post ",
+                                                        status: "Upload Post ",
+
+
+                                                    })
+
+                                            }
+                                            else {
+                                                console.log("Not Succeffully Post ")
+                                                await firebase.database().ref("Users").child(user1.toString()).child(`${day}-${month}-${year}-${h}:${min}:${sec}`)
+                                                    .child(v.id).update({
+                                                        Group_Id: v.id,
+                                                        Group_Name: v.name,
+                                                        POST_STATUS: "NOT Upload Post ",
+                                                        status: "Not Published "
+                                                    })
+                                            }
+                                        })
+                                        .catch(error => console.log('error', error))
+
+                                })
+                            })
+
+
+
+                    })
+                    :
+
+
+
+                    await firebase.database().ref("Users").child(data).once("value", async (snap) => {
+                        console.log(snap.toJSON())
+
+                        var formdata = new FormData();
+                        formdata.append("source ", getfile);
+
+                        var requestOptions = {
+                            method: 'POST',
+                            redirect: 'follow',
+                            body: formdata
+                        };
+
+
+                        fetch(`https://graph.facebook.com/v15.0/me?fields=groups&access_token=${snap.toJSON()["Access_Token"]}`, requestOptions)
+                            .then(response => response.text())
+                            .then(async (result) => {
+                                var data = JSON.parse(result)
+                                var maindata = data.groups.data
+                                maindata.map(async (v, i) => {
+                                    console.log(v.id)
+                                    var date = new Date();
+                                    var day = date.getDate()
+                                    var month = date.getMonth() + 1
+                                    var year = date.getFullYear()
+                                    var h = date.getHours()
+                                    var min = date.getMinutes()
+                                    var sec = date.getSeconds()
+                                    console.log(day + "-" + month + "-" + year + "-" + h + ":" + min + ":" + sec)
+                                    await fetch(`https://graph.facebook.com/v15.0/${v.id}/photos?message=${message.value}&access_token=${snap.toJSON()["Access_Token"]}`, requestOptions)
+                                        .then(response => response.text())
+                                        .then(async (result) => {
+                                            // console.log(result)
+                                            console.log(v.id)
+                                            var data1 = JSON.parse(result)
+                                            var date = new Date();
+                                            var day = date.getDay()
+                                            var month = date.getMonth()
+                                            var year = date.getFullYear()
+                                            var user1 = localStorage.getItem("User_Login")
+                                            console.log(user1)
+                                            // console.log(data1.error)
+                                            if (data1.error == undefined) {
+                                                console.log("Upload Post")
+
+                                                await firebase.database().ref("Users").child(user1.toString()).child(`${day}-${month}-${year}-${h}:${min}:${sec}`)
+                                                    .child(v.id).update({
+                                                        Group_Id: v.id,
+                                                        Group_Name: v.name,
+                                                        POST_STATUS: "Upload Post ",
+                                                        status: "Upload Post ",
+
+
+                                                    })
+
+                                            }
+                                            else {
+                                                console.log("Not Succeffully Post ")
+                                                await firebase.database().ref("Users").child(user1.toString()).child(`${day}-${month}-${year}-${h}:${min}:${sec}`)
+                                                    .child(v.id).update({
+                                                        Group_Id: v.id,
+                                                        Group_Name: v.name,
+                                                        POST_STATUS: "NOT Upload Post ",
+                                                        status: "Not Published "
+                                                    })
+                                            }
+                                        })
+                                        .catch(error => console.log('error', error))
+
+                                })
+
+
+
+
+
+
+                            })
+                    })
+                :
+                imgurl.length == 0 ?
+
+
+
+                    await firebase.database().ref("Users").child(data).once("value", async (snap) => {
+                        console.log(snap.toJSON())
+
+                        var requestOptions = {
+                            method: 'POST',
+                            redirect: 'follow'
+                        };
+
+
+                        fetch(`https://graph.facebook.com/v15.0/me?fields=groups&access_token=${snap.toJSON()["Access_Token"]}`, requestOptions)
+                            .then(response => response.text())
+                            .then(async (result) => {
+                                var data = JSON.parse(result)
+                                var maindata = data.groups.data
+                                list.map(async (v, i) => {
+                                    console.log(v.id)
+                                    var date = new Date();
+                                    var day = date.getDate()
+                                    var month = date.getMonth() + 1
+                                    var year = date.getFullYear()
+                                    var h = date.getHours()
+                                    var min = date.getMinutes()
+                                    var sec = date.getSeconds()
+                                    console.log(day + "-" + month + "-" + year + "-" + h + ":" + min + ":" + sec)
+                                    await fetch(`https://graph.facebook.com/v15.0/${v.id}/feed?fields=message&message=${message.value}&access_token=${snap.toJSON()["Access_Token"]}`, requestOptions)
+                                        .then(response => response.text())
+                                        .then(async (result) => {
+                                            // console.log(result)
+                                            console.log(v.id)
+                                            var data1 = JSON.parse(result)
+                                            var date = new Date();
+                                            var day = date.getDay()
+                                            var month = date.getMonth()
+                                            var year = date.getFullYear()
+                                            var user1 = localStorage.getItem("User_Login")
+                                            console.log(user1)
+                                            // console.log(data1.error)
+                                            if (data1.error == undefined) {
+                                                console.log("Upload Post")
+
+                                                await firebase.database().ref("Users").child(user1.toString()).child(`${day}-${month}-${year}-${h}:${min}:${sec}`)
+                                                    .child(v.id).update({
+                                                        Group_Id: v.id,
+                                                        Group_Name: v.name,
+                                                        POST_STATUS: "Upload Post ",
+                                                        status: "Upload Post ",
+
+
+                                                    })
+
+                                            }
+                                            else {
+                                                console.log("Not Succeffully Post ")
+                                                await firebase.database().ref("Users").child(user1.toString()).child(`${day}-${month}-${year}-${h}:${min}:${sec}`)
+                                                    .child(v.id).update({
+                                                        Group_Id: v.id,
+                                                        Group_Name: v.name,
+                                                        POST_STATUS: "NOT Upload Post ",
+                                                        status: "Not Published "
+                                                    })
+                                            }
+                                        })
+                                        .catch(error => console.log('error', error))
+
+                                })
+                            })
+
+
+
+                    })
+                    :
+
+
+                    await firebase.database().ref("Users").child(data).once("value", async (snap) => {
+                        console.log(snap.toJSON())
+
+                        var formdata = new FormData();
+                        formdata.append("source ", getfile);
+
+                        var requestOptions = {
+                            method: 'POST',
+                            redirect: 'follow',
+                            body: formdata
+                        };
+
+
+                        fetch(`https://graph.facebook.com/v15.0/me?fields=groups&access_token=${snap.toJSON()["Access_Token"]}`, requestOptions)
+                            .then(response => response.text())
+                            .then(async (result) => {
+                                var data = JSON.parse(result)
+                                var maindata = data.groups.data
+                                list.map(async (v, i) => {
+                                    console.log(v.id)
+                                    var date = new Date();
+                                    var day = date.getDate()
+                                    var month = date.getMonth() + 1
+                                    var year = date.getFullYear()
+                                    var h = date.getHours()
+                                    var min = date.getMinutes()
+                                    var sec = date.getSeconds()
+                                    console.log(day + "-" + month + "-" + year + "-" + h + ":" + min + ":" + sec)
+                                    await fetch(`https://graph.facebook.com/v15.0/${v.id}/photos?message=${message.value}&access_token=${snap.toJSON()["Access_Token"]}`, requestOptions)
+                                        .then(response => response.text())
+                                        .then(async (result) => {
+                                            // console.log(result)
+                                            console.log(v.id)
+                                            var data1 = JSON.parse(result)
+                                            var date = new Date();
+                                            var day = date.getDay()
+                                            var month = date.getMonth()
+                                            var year = date.getFullYear()
+                                            var user1 = localStorage.getItem("User_Login")
+                                            console.log(user1)
+                                            // console.log(data1.error)
+                                            if (data1.error == undefined) {
+                                                console.log("Upload Post")
+
+                                                await firebase.database().ref("Users").child(user1.toString()).child(`${day}-${month}-${year}-${h}:${min}:${sec}`)
+                                                    .child(v.id).update({
+                                                        Group_Id: v.id,
+                                                        Group_Name: v.name,
+                                                        POST_STATUS: "Upload Post ",
+                                                        status: "Upload Post ",
+
+
+                                                    })
+
+                                            }
+                                            else {
+                                                console.log("Not Succeffully Post ")
+                                                await firebase.database().ref("Users").child(user1.toString()).child(`${day}-${month}-${year}-${h}:${min}:${sec}`)
+                                                    .child(v.id).update({
+                                                        Group_Id: v.id,
+                                                        Group_Name: v.name,
+                                                        POST_STATUS: "NOT Upload Post ",
+                                                        status: "Not Published "
+                                                    })
+                                            }
+                                        })
+                                        .catch(error => console.log('error', error))
+
+                                })
+
+
+
+
+
+
+                            })
+                    })
+
+
+
+
+
+
+        }
+
+        abc()
+
+
+
+    </script>
+    <script></script>
+</body>
+
+</html>
