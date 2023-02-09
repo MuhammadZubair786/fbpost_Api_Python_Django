@@ -113,7 +113,7 @@
 var click1 = document.getElementById("click")
     click1.addEventListener("click",()=>{
         console.log("sjhsjh")
-      window.location.replace("http://127.0.0.1:8000/")
+      window.location.replace("https://stingray-app-9wy2i.ondigitalocean.app/")
     })
 
         var email = document.getElementById("email")
@@ -138,7 +138,7 @@ var click1 = document.getElementById("click")
 
                     await firebase.database()
                         .ref("Users").child(userdata.user.uid.toString()).set(obj)
-                    window.location.replace("http://localhost:8000/homepage.html/")
+                    window.location.replace("https://stingray-app-9wy2i.ondigitalocean.app/")
                     alert("user reg")
 
                 })
