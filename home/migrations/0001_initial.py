@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=1000)),
-                ('content', froala_editor.fields.FroalaField()),
+                ('content',  models.CharField(max_length=1000)),
                 ('slug', models.SlugField(max_length=1000)),
                 ('image', models.ImageField(upload_to='blog')),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
